@@ -1,0 +1,11 @@
+{
+  "name": "ngx-request-idle",
+  "version": "1.0.0",
+  "dependencies": {
+    "requestidlecallback-polyfill": "^1.0.2"
+  },
+  "peerDependencies": {
+    "@angular/common": "^8.2.0",
+    "@angular/core": "^8.2.0"
+  }
+}
