@@ -1,6 +1,6 @@
 {
   "name": "ngx-request-idle",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "dependencies": {
     "requestidlecallback-polyfill": "^1.0.2"
   },
