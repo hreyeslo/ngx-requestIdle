@@ -2,5 +2,41 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "projects": {}
+  "projects": {
+    "requestIdle": {
+      "projectType": "library",
+      "root": "projects/request-idle",
+      "sourceRoot": "projects/request-idle/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/request-idle/tsconfig.lib.json",
+            "project": "projects/request-idle/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/request-idle/src/test.ts",
+            "tsConfig": "projects/request-idle/tsconfig.spec.json",
+            "karmaConfig": "projects/request-idle/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/request-idle/tsconfig.lib.json",
+              "projects/request-idle/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }},
+  "defaultProject": "ngx-requestIdle"
 }
