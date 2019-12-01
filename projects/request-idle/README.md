@@ -1,24 +1,88 @@
-# NgxRequestIdle
+<h1 align="center">ngx-request-idle</h1>
+<p align="center">
+This library is a set of utilities to improve the performance of Angular 2+ applications.
+</p>
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.0.
+## Demo
 
-## Code scaffolding
+You can see the real example in this [stackblitz](https://stackblitz.com/edit/request-idle-demo?file=src%2Fapp%2Fapp.module.ts)
 
-Run `ng generate component component-name --project ngx-requestIdle` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-requestIdle`.
-> Note: Don't forget to add `--project ngx-requestIdle` or else it will be added to the default project in your `angular.json` file. 
+## Installation instructions
+Install `ngx-request-idle` from `npm`:
+```bash
+npm install ngx-request-idle
 
-## Build
+or
 
-Run `ng build ngx-requestIdle` to build the project. The build artifacts will be stored in the `dist/` directory.
+yarn add ngx-request-idle
+```
 
-## Publishing
+Add needed package to NgModule imports:
+```
+import { RequestIdleModule } from 'ngx-request-idle';
 
-After building your library with `ng build ngx-requestIdle`, go to the dist folder `cd dist/ngx-request-idle` and run `npm publish`.
+@NgModule({
+  ...
+  imports: [RequestIdleModule.forRoot(),...]
+  ...
+})
+```
 
-## Running unit tests
+## Content
 
-Run `ng test ngx-requestIdle` to execute the unit tests via [Karma](https://karma-runner.github.io).
+This package contains a service and a custom preload strategy.
 
-## Further help
+- RequestIdle (service)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+  * callback() -> Queues a function to be called during a browser's idle periods.
+  * requestAnimationFrame() -> this method tells the browser that you wish to perform an animation and requests that the browser calls a specified function to update an animation before the next repaint.
+
+- RequestIdlePreloadAllModules (Preload Strategy)
+
+  * This strategy combines the 2 methods of the requestidle service to ensure a preload without blockages
+
+## Usage
+
+##### requestIdleCallback
+```bash
+import { RequestIdle } from 'ngx-request-idle';
+...
+export class AppComponent implements OnInit {
+  ...
+  constructor(private _requestIdle: RequestIdle) { }
+
+  ngOnInit() {
+    this._requestIdle.callback(() => { // Whatever you need });
+  }
+  ...
+}
+```
+
+##### requestAnimationFrame
+```bash
+import { RequestIdle } from 'ngx-request-idle';
+...
+export class AppComponent implements OnInit {
+  ...
+  constructor(private _requestIdle: RequestIdle) { }
+
+  ngOnInit() {
+    this._requestIdle.requestAnimationFrame(() => { // Whatever you need });
+  }
+  ...
+}
+```
+
+##### RequestIdlePreloadAllModules
+```bash
+import { RequestIdlePreloadAllModules } from "ngx-request-idle";
+...
+imports: [
+  RouterModule.forRoot(routes, {
+    // Custom strategy to improve performance when loading lazy-load modules
+    preloadingStrategy: RequestIdlePreloadAllModules
+  }),
+  ...
+]
+...
+```

@@ -1,6 +1,18 @@
 {
+  "author": "Héctor Reyes López",
+  "license": "MIT",
   "name": "ngx-request-idle",
-  "version": "1.0.0",
+  "description": "This library is a set of utilities to improve the performance of Angular 2+ applications.",
+  "version": "1.0.1",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hreyeslo/ngx-requestIdle.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hreyeslo/ngx-requestIdle/issues"
+  },
+  "homepage": "https://github.com/hreyeslo/ngx-requestIdle#readme",
   "dependencies": {
     "requestidlecallback-polyfill": "^1.0.2"
   },
