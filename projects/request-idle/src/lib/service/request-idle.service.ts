@@ -1,8 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
-import 'requestidlecallback-polyfill';
 
-import { RequestIdleOptions, FormatedRequestIdleOptions } from './request-idle.model';
 import { AbstractRequestIdleService } from './abstract-request-idle.service';
+import { FormatedRequestIdleOptions, RequestIdleOptions } from './request-idle.model';
 
 @Injectable()
 export class RequestIdleService implements AbstractRequestIdleService {
@@ -12,28 +11,17 @@ export class RequestIdleService implements AbstractRequestIdleService {
   // Public
 
   callback(cb: () => void, opt?: RequestIdleOptions): void {
+    const win: any = window;
     const { timeout, raf } = this._getOptions(opt);
 
-    if (typeof window === 'undefined') {
+    if (typeof win === 'undefined') {
       setTimeout(() => cb(), timeout);
-    } else if (window.requestIdleCallback) {
-      window.requestIdleCallback(() => this._ngZone.run(() => {
-        if (raf) {
-          this.requestAnimationFrame(() => cb());
-        } else {
-          cb();
-        }
-      }), {
+    } else if (win.requestIdleCallback) {
+      win.requestIdleCallback(() => this._ngZone.run(() => this._runCallback(cb, raf)), {
         ...(timeout ? { timeout } : {}),
       });
     } else {
-      this._ngZone.runOutsideAngular(() => {
-        if (raf) {
-          this.requestAnimationFrame(() => cb());
-        } else {
-          cb();
-        }
-      });
+      this._ngZone.runOutsideAngular(() => this._runCallback(cb, raf));
     }
   }
 
@@ -57,5 +45,13 @@ export class RequestIdleService implements AbstractRequestIdleService {
     const timeout = typeof (opt || {}).timeout !== 'number' ? 0 : opt.timeout;
     const raf = !!(typeof (opt || {}).requestAnimationFrame !== 'boolean' ? true : opt.requestAnimationFrame);
     return { timeout, raf };
+  }
+
+  _runCallback(cb: () => void, raf: boolean): void{
+    if (raf) {
+      this.requestAnimationFrame(() => cb());
+    } else {
+      cb();
+    }
   }
 }
