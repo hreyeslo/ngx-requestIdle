@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PreloadingStrategy, Route } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import 'requestidlecallback-polyfill';
 
 import { AbstractRequestIdleService } from '../service/abstract-request-idle.service';
 
